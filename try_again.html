@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TRY AGAIN</title>
+
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+    <link href="css/styles.css" rel="stylesheet">
+</head>
+<body>
+    <div class="full-page-background position-relative overflow-hidden bg-light">
+        <div class="container-fluid h-100 bg-danger">
+            <div class="row h-100 align-items-center text-center">
+                <div class="col-md-5 mx-auto">
+                    <img src = "images/pngegg.png" id = "poster">
+                    <h1 class="display-4 font-weight-normal">INCORRECT</h1>
+                    <p class="lead font-weight-normal" id = "description">You will get three hints based on two actors from the movie, the genre of it and the year it appeared.</p>
+                    <form action="/play" method="get">
+                        <button class="btn btn-dark">PLAY AGAIN</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function updateMovieData(data) {
+            document.getElementById('poster').src = `${data.image}`;
+            document.getElementById('description').textContent = `${data.description || 'N/A'}`;
+        }
+
+        fetch('/play-data')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Failed to fetch movie data');
+                }
+                return response.json();
+            })
+            .then(data => {
+                console.log(data);
+                updateMovieData(data);
+            })
+            .catch(error => {
+                console.error('Error fetching movie data:', error);
+            });
+    </script> 
+</body>
+</html>
